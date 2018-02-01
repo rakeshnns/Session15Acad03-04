@@ -1,0 +1,55 @@
+<h1 style="text-align:center">VIEW</h1>
+<div [@AnimationInOut] ="in" (@AnimationInOut.start)="animationStarted($event)" (@AnimationInOut.done)="animationDone($event)" *ngIf = "len <= 0" style="text-align:center; 
+color: red"><h5>No records to display</h5></div>
+<div *ngIf = "len > 0">
+    <tr>
+        <th>Si no</th>
+        <th>FirstName</th>
+        <th>Lastmname</th>
+        <th>DOB</th>
+        <th>Department</th>
+        <th>Degree</th> 
+    </tr>    
+    <tr [@AnimationInOut] ="in" (@AnimationInOut.start)="animationStarted($event)" (@AnimationInOut.done)="animationDone($event)"  *ngFor = 'let ids of EMPARRAY, let i = index'>
+        <td>{{i+1}}</td>
+        <td (click) = "EmpView(ids.Firstname)" #ff >{{ids.Firstname| firstCharCaps}}</td>  <!--Pipe been used to format the date -->
+        <td>{{ids.Lastname}}</td>
+        <td>{{ids.DOB|date:'d/M/yyyy'}}</td>  
+        <td>{{ids.Department}}</td>
+        <td>{{ids.Degree}}</td>
+    </tr> 
+</div> 
+    <br>
+    <br>
+      <!--Search Tab Firstname search -->
+      <div [@AnimationInOut] ="in" (@AnimationInOut.start)="animationStarted($event)" (@AnimationInOut.done)="animationDone($event)"  *ngIf = "len > 0">
+          <h3>View with Observables and aysnc pipe</h3>
+          <tr>
+              <th>Si no</th>
+              <th>FirstName</th>
+              <th>Lastmname</th>
+              <th>DOB</th>
+              <th>Department</th>
+              <th>Degree</th> 
+          </tr>    
+          <tr *ngFor = 'let idds of observableDet | async, let i = index'>
+              <td *ngIf = "i > 0"  (click) = "DeleteID(idds.id)" #iddr >{{idds.id}}</td>
+              <td *ngIf = "i > 0">{{idds.Firstname| firstCharCaps}}</td>
+              <td *ngIf = "i > 0">{{idds.Lastname}}</td>
+              <td *ngIf = "i > 0">{{idds.DOB}}</td>  
+              <td *ngIf = "i > 0">{{idds.Department}}</td>
+              <td *ngIf = "i > 0">{{idds.Degree}}</td>
+          </tr> 
+      </div>
+      <br>
+      <br>
+      <div  *ngIf = "len > 0">
+        <input type="text" placeholder="Search Name" [(ngModel)] = "search">
+      
+          <ul>
+            <li [@AnimationInOut] ="in" (@AnimationInOut.start)="animationStarted($event)" (@AnimationInOut.done)="animationDone($event)" *ngFor = "let n of EMPARRAY | FilterPipe: search">
+              Firstname:{{n.Firstname}} Lastname:{{n.Lastname}} DOB:{{n.DOB}} DEPT:{{n.Department}} Degree:{{n.Degree}}
+            </li>
+          </ul>
+     </div>
+  
